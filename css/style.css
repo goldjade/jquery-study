@@ -17,6 +17,79 @@ body.modalActive {
   overflow: hidden;
 }
 
+/* Navigation Menu */
+/* 네비게이션 메뉴 스타일링 */
+/* 헤더 */
+.header {
+  position: relative;
+  display: block;
+  width: 100%;
+  z-index: 9999;
+  background: skyblue;
+}
+.nav {
+  width: 960px; /* 네비게이션 메뉴 전체 가로 폭 */
+  margin: 0 auto; /* 가운데 정렬 */
+}
+
+.gnb {
+  list-style: none; /* 리스트 마커 숨김 */
+  padding: 0;
+  margin: 0;
+  background-color: #333; /* 배경색상 */
+  display: flex;
+  justify-content: center;
+}
+
+.gnb li {
+  display: block; /* 가로로 나열 */
+  position: relative; /* 자식 요소의 위치 설정 */
+  width: 20%;
+  text-align: center;
+}
+
+.gnb li a {
+  display: block; /* 블록 레벨 요소로 변경 */
+  padding: 15px 20px; /* 패딩값 */
+  color: #fff; /* 글자색상 */
+  font-size: 16px; /* 폰트 사이즈 */
+  text-decoration: none; /* 밑줄 제거 */
+}
+
+.gnb li:hover > ul.depth2 {
+  /* hover 상태일 때 depth2 클래스를 가진 ul 태그를 나타나게 함 */
+  /* display: block; 보이기  jquery 변경*/
+}
+
+.depth2 {
+  display: none; /* 기본적으로 숨김 */
+  position: absolute; /* 부모 요소 기준으로 위치 설정 */
+  top: 50px; /* 상단 여백 */
+  left: 0; /* 왼쪽 정렬 */
+  background-color: #444; /* 배경색상 */
+  padding: 10px; /* 패딩값 */
+  width: 200px; /* 너비 */
+}
+
+.depth2 li {
+  display: block;
+  margin: 0;
+  width: 100%; /* 너비 100% 지정 */
+}
+
+.depth2 li a {
+  display: block;
+  padding: 8px 10px; /* 패딩값 */
+  font-size: 14px; /* 폰트 사이즈 */
+  color: #fff; /* 글자색상 */
+  text-decoration: none; /* 밑줄 제거 */
+  text-align: center;
+}
+
+.depth2 li:hover a {
+  background-color: #666; /* hover 상태일 때 배경색상 변경 */
+}
+
 .modalBt {
 }
 .modalWin {

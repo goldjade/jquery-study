@@ -4,6 +4,51 @@ window.onload = function () {
   // 멀티미디어 로드완료시 실행
 };
 $(document).ready(function () {
+  // 주메뉴 작업
+  // 1. nav 를 저장한다.
+  const nav = $(".nav");
+  // 2. gnb 를 저장한다.
+  const gnb = $(".gnb");
+  // 3. gnb > li 를 저장한다.
+  const gnbLis = $(".gnb>li");
+
+  // 4. gnb > li 에 mouseenter 하면
+  // 해당하는 장소의 ul.depth2 를 보여준다.
+  $.each(gnbLis, function (index, item) {
+    // $(item)
+    $(this).mouseenter(function () {
+      // let depth2 = $("gnb>li>.depth2"); 버그
+      let depth2 = $(this).find(".depth2");
+      depth2.show();
+    });
+  });
+
+  // 5. gnb > li 에 mouseleave 하면
+  // 해당하는 장소의 ul.depth2 를 숨긴다.
+  $.each(gnbLis, function (index, item) {
+    $(this).mouseleave(function () {
+      let depth2 = $(this).find(".depth2");
+      depth2.hide();
+    });
+  });
+
+  // 메뉴 전체 보기
+  const showAll = $(".showAll");
+  // 버튼 클릭하면 .depth2 다 보이기 숨기기
+  showAll.click(function () {
+    $(".depth2").toggle();
+  });
+
+  // gnb 마우스 올리면 depth2 보이기
+  gnb.mouseenter(function () {
+    $(".depth2").show();
+  });
+  gnb.mouseleave(function () {
+    $(".depth2").hide();
+  });
+
+  // gnb 마우스 올리면 depth2 보이기
+
   // document.querySelector("body").classList.add("modalActive")
   $("body").addClass("modalActive");
 
@@ -45,15 +90,16 @@ $(document).ready(function () {
   const tabWrap = $(".tabWrap");
   const tabMenuBts = $(".tabMenu a");
   const tabBoxs = $(".tabBox");
-  const tabSpeed = 1000;
+  const tabSpeed = 3000;
   let tabTimer = setInterval(changeTabMenu, tabSpeed);
+
   // 타이머를 멈춘다.(탭 컨텐츠에 마우스 오버)
   tabWrap.mouseenter(function () {
     clearInterval(tabTimer);
   });
   // 타이머를 재시작.(탭 컨텐츠에 마우스 아웃)
   tabWrap.mouseleave(function () {
-    clearInterval(tabTimer); //타이머는 중복됨 탭와리가리하면 타이머가 쌓일 수 있음  타이머가 새로 만들어지는 곳에는 깨긋하게 지워주고 만들어야함
+    clearInterval(tabTimer);
     tabTimer = setInterval(changeTabMenu, tabSpeed);
   });
 
@@ -85,11 +131,12 @@ $(document).ready(function () {
   $.each(tabMenuBts, function (index, item) {
     $(item).click(function (e) {
       // go class 를 가지고 있니?
-      const go = $(this).hasClass("go"); //디스는 . 앞에거
+      const go = $(this).hasClass("go");
       if (go) return;
+
       // a 태그 href 막기
-      // return false 이랑 e.preventDefault(); 랑 같음
       e.preventDefault();
+
       tabStart = index;
       changeTabMenu();
     });
