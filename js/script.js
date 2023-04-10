@@ -45,18 +45,18 @@ $(document).ready(function () {
   const tabWrap = $(".tabWrap");
   const tabMenuBts = $(".tabMenu a");
   const tabBoxs = $(".tabBox");
-  const tabSpeed = 3000;
+  const tabSpeed = 1000;
   let tabTimer = setInterval(changeTabMenu, tabSpeed);
-  //타이머 필요없으면 setInterval 있는거 주석처리하자
-
-  //타이머 멈춤(탭 컨텐츠에 마우스 오버)
+  // 타이머를 멈춘다.(탭 컨텐츠에 마우스 오버)
   tabWrap.mouseenter(function () {
-    clearInterval.setInterval(tabTimer);
+    clearInterval(tabTimer);
   });
-  //타이머 재시작(탭 컨텐츠에 마우스 아웃)
+  // 타이머를 재시작.(탭 컨텐츠에 마우스 아웃)
   tabWrap.mouseleave(function () {
+    clearInterval(tabTimer); //타이머는 중복됨 탭와리가리하면 타이머가 쌓일 수 있음  타이머가 새로 만들어지는 곳에는 깨긋하게 지워주고 만들어야함
     tabTimer = setInterval(changeTabMenu, tabSpeed);
   });
+
   function changeTabMenu() {
     // 일단 탭내용들은 모두 class 는 제거
     tabBoxs.removeClass("tabFocus");
@@ -84,7 +84,11 @@ $(document).ready(function () {
   // tabMenuBts.forEach(function(item, index) {})
   $.each(tabMenuBts, function (index, item) {
     $(item).click(function (e) {
+      // go class 를 가지고 있니?
+      const go = $(this).hasClass("go"); //디스는 . 앞에거
+      if (go) return;
       // a 태그 href 막기
+      // return false 이랑 e.preventDefault(); 랑 같음
       e.preventDefault();
       tabStart = index;
       changeTabMenu();
