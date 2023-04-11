@@ -153,6 +153,12 @@ $(document).ready(function () {
   const bannerDir = "left"; // up, down, right, left
   // 총 배너 개수
   const bannerTotal = bannerSlide.length;
+  // 슬라이드 타이머 생성
+  let bannerId;
+  // 슬라이드 이동 속도(1000 은 1초)
+  let bannerSpeed = 1000;
+  // 슬라이드 인터벌 시간(1000 은 1초)
+  let bannerDelay = 2000;
 
   // 배너의 실제 배치
   switch (bannerDir) {
@@ -172,7 +178,7 @@ $(document).ready(function () {
       $.each(bannerSlide, function (index, item) {
         $(item).css({ left: index * bannerW, top: 0 });
       });
-      slideMoveLeft();
+      bannerId = setTimeout(slideMoveLeft, bannerDelay);
       break;
     case "right":
       $.each(bannerSlide, function (index, item) {
@@ -191,33 +197,38 @@ $(document).ready(function () {
       break;
   }
 
-  function slideMoveUp() {$.each(bannerSlide, function (index, item) {})}
-  function slideMoveDown() {$.each(bannerSlide, function (index, item) {})}
+  function slideMoveUp() {
+    $.each(bannerSlide, function (index, item) {});
+  }
+  function slideMoveDown() {
+    $.each(bannerSlide, function (index, item) {});
+  }
   function slideMoveLeft() {
     $.each(bannerSlide, function (index, item) {
-      // 각각의 슬라이드 JQuery 대상으로 저장
-      let tempSlise = $(item)
-      // 왼쪽으로 도착해야 할 위치를 파악한다
-      // 현재 left 위치값 - 300(배너 넓이 이미지임)
-      let nowX = tempSlise.css("left")
-      //nowX는 글자 숫자로 바꿔줘야해
-      let tgX = parseInt(nowX) - bannerW
-      // 조건에 따라 슬라이드 들을 가장 left  끝쪽으로 위치 시킨다.
-
- if (tgX < -bannerW) {
-  // 1. 슬라이드를 제일 가장 left 끝쪽으로 위치시킨다.
-  tempSlise.css("left", bannerW * (bannerTotal - 1));
-  // 2. 새롭게 이동할 값으로 계산
-  tgX = bannerW * (bannerTotal - 2);
-}
-      console.log(tgX);
-      tempSlise.animate({ left: tgX }, 1000, function () {
-        if(index === 8){
-        slideMoveLeft()
-        }
+      // 각각의 슬라이드 jQuery 대상으로 저장
+      let tempSlise = $(item);
+      // 왼쪽으로 도착해야 할 위치를 파악한다.
+      // 현재 left 위치값 - 300
+      let nowX = tempSlise.css("left");
+      // nowX 는 글자입니다.
+      let tgX = parseInt(nowX) - bannerW;
+      // 조건에 따라서
+      if (tgX < -bannerW) {
+        // 1. 슬라이드를 제일 가장 left 끝쪽으로 위치시킨다.
+        tempSlise.css("left", bannerW * (bannerTotal - 1));
+        // 2. 새롭게 이동할 값으로 계산
+        tgX = bannerW * (bannerTotal - 2);
+      }
+      tempSlise.animate({ left: tgX }, bannerSpeed, function () {
+        clearTimeout(bannerId);
+        bannerId = setTimeout(slideMoveLeft, bannerDelay);
       });
-    })
+    });
   }
-  function slideMoveRight() {$.each(bannerSlide, function (index, item) {})}
-  function slideMove() {$.each(bannerSlide, function (index, item) {})}
+  function slideMoveRight() {
+    $.each(bannerSlide, function (index, item) {});
+  }
+  function slideMove() {
+    $.each(bannerSlide, function (index, item) {});
+  }
 });
