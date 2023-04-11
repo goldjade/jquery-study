@@ -1,5 +1,3 @@
-/** @format */
-
 @charset "utf-8";
 * {
   margin: 0;
@@ -10,16 +8,14 @@
 }
 
 body {
-  height: 5000px;
 }
 
 body.modalActive {
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 /* Navigation Menu */
 /* 네비게이션 메뉴 스타일링 */
-/* 헤더 */
 .header {
   position: relative;
   display: block;
@@ -27,6 +23,7 @@ body.modalActive {
   z-index: 9999;
   background: skyblue;
 }
+
 .nav {
   width: 960px; /* 네비게이션 메뉴 전체 가로 폭 */
   margin: 0 auto; /* 가운데 정렬 */
@@ -37,6 +34,7 @@ body.modalActive {
   padding: 0;
   margin: 0;
   background-color: #333; /* 배경색상 */
+
   display: flex;
   justify-content: center;
 }
@@ -58,7 +56,7 @@ body.modalActive {
 
 .gnb li:hover > ul.depth2 {
   /* hover 상태일 때 depth2 클래스를 가진 ul 태그를 나타나게 함 */
-  /* display: block; 보이기  jquery 변경*/
+  /* display: block; 보이기 */
 }
 
 .depth2 {
@@ -72,9 +70,9 @@ body.modalActive {
 }
 
 .depth2 li {
-  display: block;
-  margin: 0;
-  width: 100%; /* 너비 100% 지정 */
+  display: block; /* 블록 레벨 요소로 변경 */
+  margin: 0; /* 마진값 초기화 */
+  width: 100%;
 }
 
 .depth2 li a {
@@ -83,7 +81,6 @@ body.modalActive {
   font-size: 14px; /* 폰트 사이즈 */
   color: #fff; /* 글자색상 */
   text-decoration: none; /* 밑줄 제거 */
-  text-align: center;
 }
 
 .depth2 li:hover a {
@@ -191,3 +188,26 @@ body.modalActive {
 .bg4 {
   background: black;
 }
+/* 배너만들기 */
+.bannerWrap {
+  position: relative;
+  display: block;
+  width: 300px;
+  height: 200px;
+  margin: 0 auto;
+  font-size: 0;
+  overflow: hidden;
+}
+.bannerWrap .banner{
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.bannerWrap .banner .banner-slide{
+  position: absolute;
+  left: 0;
+  top:0;
+  width: 100%;
+  height: 100%;
+}
+.bannerWrap .banner .banner-slide img {}
