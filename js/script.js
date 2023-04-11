@@ -150,7 +150,7 @@ $(document).ready(function () {
   // 배너의 높이
   const bannerH = bannerWrap.height();
   // 배너의 배치
-  const bannerDir = "left"; // up, down, right, left
+  const bannerDir = ""; // up, down, right, left
   // 총 배너 개수
   const bannerTotal = bannerSlide.length;
   // 슬라이드 타이머 생성
@@ -158,7 +158,37 @@ $(document).ready(function () {
   // 슬라이드 이동 속도(1000 은 1초)
   let bannerSpeed = 1000;
   // 슬라이드 인터벌 시간(1000 은 1초)
-  let bannerDelay = 2000;
+  let bannerDelay = 500;
+  // 앞쪽 z-index 관리
+  let bannerFront = 0;
+  // 뒷쪽 z-index 관리
+  let bannerBack = 1;
+
+  // 마우스 오버/아웃시 애니메이션 정지/재시작
+  let bannerState = "start"; // "pause"
+  bannerWrap.mouseenter(function () {
+    bannerState = "pause";
+  });
+  bannerWrap.mouseleave(function () {
+    bannerState = "start";
+    switch (bannerDir) {
+      case "up":
+        break;
+      case "down":
+        break;
+      case "left":
+        // 항상 지우고 만든다.
+        clearTimeout(bannerId);
+        bannerId = setTimeout(slideMoveLeft, bannerSpeed);
+        break;
+      case "right":
+        break;
+      default:
+        clearTimeout(bannerId);       
+        bannerId = setTimeout(slideFade, bannerDelay);
+        break;
+    }
+  });
 
   // 배너의 실제 배치
   switch (bannerDir) {
@@ -188,12 +218,12 @@ $(document).ready(function () {
       break;
     default:
       $.each(bannerSlide, function (index, item) {
-        $(item).css({ left: 0, top: 0, display: "none", zIndex: -100 });
+        $(item).css({ left: 0, top: 0, opacity: 0, zIndex: -100 });
         if (index === 0) {
-          $(item).css({ zIndex: 99, display: "block" });
+          $(item).css({ zIndex: 99, opacity: 1 });
         }
       });
-      slideMove();
+      bannerId = setTimeout(slideFade, bannerDelay);
       break;
   }
 
@@ -221,6 +251,10 @@ $(document).ready(function () {
       }
       tempSlise.animate({ left: tgX }, bannerSpeed, function () {
         clearTimeout(bannerId);
+        // 배너의 상태를 읽고 조건에 맞으면 처리
+        if (bannerState === "pause") {
+          return;
+        }
         bannerId = setTimeout(slideMoveLeft, bannerDelay);
       });
     });
@@ -228,7 +262,38 @@ $(document).ready(function () {
   function slideMoveRight() {
     $.each(bannerSlide, function (index, item) {});
   }
-  function slideMove() {
-    $.each(bannerSlide, function (index, item) {});
+  function slideFade() {
+    // 모든 슬라이드를 zIndex 를 낯추고, 안보기에 처리
+    bannerSlide.css({ zIndex: -100, opacity: 0 });
+    // 즉시, 앞쪽 슬라이드를 zIndex 가장 높고, 보이게
+    bannerSlide.eq(bannerFront).css({ zIndex: 2, opacity: 1 });
+    // 다음에 나와야 하는 슬라이드를 zIndex 를 주고, 보이게
+    bannerSlide.eq(bannerBack).css({ zIndex: 1, opacity: 1 });
+    // 가장 앞에 있는 슬라이드가 사라지면서 뒤쪽에 있는 슬라이드 보임
+    bannerSlide
+      .eq(bannerFront)
+      .animate({ opacity: 0 }, bannerSpeed, function () {
+        // 최종적으로  zindex 조절해 준다.
+        bannerSlide.eq(bannerFront).css({ zIndex: -100 });
+        bannerSlide.eq(bannerBack).css({ zIndex: 2 });
+        // 앞쪽 변화 값
+        bannerFront++;
+        if (bannerFront >= bannerTotal) {
+          bannerFront = 0;
+        }
+        // console.log("bannerFront", bannerFront);
+        // 뒷쪽 변화 값
+        bannerBack++;
+        if (bannerBack >= bannerTotal) {
+          bannerBack = 0;
+        }
+        // console.log("bannerBack", bannerBack);
+        clearTimeout(bannerId);
+        // 배너의 상태를 읽고 조건에 맞으면 처리
+        if (bannerState === "pause") {
+          return;
+        }
+        bannerId = setTimeout(slideFade, bannerDelay);
+      });
   }
 });
